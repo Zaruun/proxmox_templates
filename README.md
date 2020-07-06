@@ -5,11 +5,11 @@ Versão: pve-manager/6.1-3
 # Requisitos:
 
 
-<ul>Instalação do sudo</ul>
+> Instalação do sudo
 
 apt-get install sudo
 
-<ul>Configuração do sudoers para os comandos remoto do zabbix usando qm.</ul>
+> Configuração do sudoers para os comandos remoto do zabbix usando qm.
 
 <p>
 Defaults:zabbix !requiretty<br />
