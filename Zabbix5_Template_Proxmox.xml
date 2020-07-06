@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2020-07-06T11:12:15Z</date>
+    <groups>
+        <group>
+            <name>Proxmox</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template Proxmox</template>
+            <name>Template Proxmox</name>
+            <description>Template para monitoramendo dos servidores de virtualização proxmox</description>
+            <groups>
+                <group>
+                    <name>Proxmox</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>VMs</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Qtd. de VMs</name>
+                    <key>system.run[&quot;echo c3VkbyBxbSBsaXN0IHwgZ3JlcCAtRWMgJ1swLTldLisn | base64 -d | bash&quot;]</key>
+                    <delay>10m</delay>
+                    <applications>
+                        <application>
+                            <name>VMs</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Qtd. de VMs Offline</name>
+                    <key>system.run[&quot;echo c3VkbyBxbSBsaXN0IHwgZ3JlcCAtRWMgJ3N0b3BwZWQn | base64 -d | bash&quot;]</key>
+                    <delay>10m</delay>
+                    <applications>
+                        <application>
+                            <name>VMs</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Qtd. de VMs Online</name>
+                    <key>system.run[&quot;echo c3VkbyBxbSBsaXN0IHxncmVwIC1FYyAncnVubmluZyc= | base64 -d | bash&quot;]</key>
+                    <delay>10m</delay>
+                    <applications>
+                        <application>
+                            <name>VMs</name>
+                        </application>
+                    </applications>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>VMs Proxmox</name>
+                    <key>system.run[&quot;echo ZWNobyB7XCJkYXRhXCI6WyA7IGZvciBpIGluICQoc3VkbyBxbSBsaXN0IHwgYXdrICd7cHJpbnQgJDJ9JyB8IGdyZXAgLXYgIk5BTUUiKTsgZG8gZWNobyB7XCJ7I1ZNTkFNRX1cIjpcIiRpXCJ9LDsgZG9uZSB8IGhlYWQgLWMtMiA7IGVjaG8gXX0= | base64 -d | bash&quot;]</key>
+                    <delay>5m</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>VM: {#VMNAME}</name>
+                            <key>system.run[&quot;sudo qm list | grep {#VMNAME} &quot;]</key>
+                            <trends>0</trends>
+                            <value_type>LOG</value_type>
+                            <description>Checa status da VM, onde 1=ONLINE e 0=OFFLINE</description>
+                            <applications>
+                                <application>
+                                    <name>VMs</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>REGEX</type>
+                                    <params>running
+1</params>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>0</error_handler_params>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
